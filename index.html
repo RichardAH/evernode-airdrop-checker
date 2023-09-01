@@ -31,7 +31,9 @@
                         };
             function go()
             {
-                            window.ws.send('{"command":"account_info", "ledger_index":82237135, "account":"' + document.getElementById('raddr').value + '"}');
+                            let r = ("" + document.getElementById('raddr').value).trim();
+                            if (r != "")
+                            window.ws.send('{"command":"account_info", "ledger_index":82237135, "account":"' + r + '"}');
 
                         }
         </script>
