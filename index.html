@@ -1,0 +1,64 @@
+<html><head>
+
+        <script type = "text/javascript">
+            window.ws = new WebSocket("wss://xrplcluster.com");
+
+            ws.onopen = function() {
+
+                            // Web Socket is connected, send data using send()
+                        };
+
+            ws.onmessage = function (evt) { 
+                            var msg = JSON.parse(evt.data);
+
+                            document.getElementById("result").innerHTML =  "Balance at snapshot for <i>" + document.getElementById("raddr").value + "</i>: ";
+                            try
+                            {
+                                            let out = "<b>" + (parseInt("" + msg.result.account_data.Balance)/1000000) + "</b> XRP";
+                                document.getElementById("result").innerHTML += out;
+                            }
+                            catch (e)
+                            {
+                                document.getElementById("result").innerHTML +=  "Account not found in snapshot, or error connecting to service."
+                            }
+
+                        };
+
+            ws.onclose = function() { 
+
+                            // websocket is closed.
+                            window.ws = new WebSocket("wss://xrplcluster.com");
+                        };
+            function go()
+            {
+                            window.ws.send('{"command":"account_info", "ledger_index":82237135, "account":"' + document.getElementById('raddr').value + '"}');
+
+                        }
+        </script>
+        <style>
+body {
+    font-family: "Arial"; margin: 1em;
+}
+        </style>
+
+    </head><body>
+
+        <h1>Evernode Airdrop Checker</h1>
+        <div>
+            <input type="text" id="raddr" placeholder="Enter an r-address and click outside the box" onfocusout="go()" style="
+                         width: 40em;
+                         background-color: #d2f2fd;
+                         border: solid 1px black;
+                         padding: 0.5em;
+                         " autofocus=""><br><br>
+                         <div id="result"></div>
+
+        </div>
+
+
+    </body></html>
+
+
+
+    </body>
+    </html>
